@@ -1,0 +1,90 @@
+server:
+  port: 8088
+
+---
+
+spring:
+  profiles: default
+  cloud:
+    gateway:
+      routes:
+        - id: phoneorder
+          uri: http://localhost:8081
+          predicates:
+            - Path=/phoneOrders/** 
+        - id: delivery
+          uri: http://localhost:8082
+          predicates:
+            - Path=/deliveries/** 
+        - id: mypage
+          uri: http://localhost:8083
+          predicates:
+            - Path= /mypages/**
+        - id: sms
+          uri: http://localhost:8084
+          predicates:
+            - Path=/alerts/** 
+        - id: payment
+          uri: http://localhost:8085
+          predicates:
+            - Path=/payments/** 
+        - id: product
+          uri: http://localhost:8086
+          predicates:
+            - Path=/products/** 
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+
+---
+
+spring:
+  profiles: docker
+  cloud:
+    gateway:
+      routes:
+        - id: phoneorder
+          uri: http://phoneorder:8080
+          predicates:
+            - Path=/phoneOrders/** 
+        - id: delivery
+          uri: http://delivery:8080
+          predicates:
+            - Path=/deliveries/** 
+        - id: mypage
+          uri: http://mypage:8080
+          predicates:
+            - Path= /mypages/**
+        - id: sms
+          uri: http://sms:8080
+          predicates:
+            - Path=/alerts/** 
+        - id: payment
+          uri: http://payment:8080
+          predicates:
+            - Path=/payments/** 
+        - id: product
+          uri: http://product:8080
+          predicates:
+            - Path=/products/** 
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins:
+              - "*"
+            allowedMethods:
+              - "*"
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+
+server:
+  port: 8080
